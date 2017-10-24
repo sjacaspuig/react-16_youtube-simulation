@@ -10,7 +10,7 @@ class SearchForm extends Component {
   }
 
   search(query) {
-    this.props.onSearch(query);
+    this.props.onSend(query);
   }
 
   render() {
@@ -20,9 +20,10 @@ class SearchForm extends Component {
       this.search(this.state.inputValue);
     }}>
       <input
-      onChange={(event) => this.setState({inputValue: event.target.value})}
-      value={this.state.inputValue}/>
-      <button>Search</button>
+        onChange={(event) => this.setState({inputValue: event.target.value})}
+        value={this.state.inputValue}
+        placeholder={this.props.inputMessage}/>
+      <button>{this.props.buttonTitle}</button>
     </form>
     )
   }
