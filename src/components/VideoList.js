@@ -4,13 +4,18 @@ import './VideoList.css'
 
 const VideoList = props => {
 
-const VideoItems = props.videos
+  const videos = props.videos.map(v => {
+    return {
+      id: v.id.videoId,
+      title: v.snippet.title,
+      image: v.snippet.thumbnails.medium.url
+    }
+  }
+  )
+
+const VideoItems = videos
 .map(v =>
-  <VideoItem
-    key={v.id.videoId}
-    id={v.id.videoId}
-    image={v.snippet.thumbnails.medium.url}
-    title={v.snippet.title}/>
+  <VideoItem key={v.id} video={v}/>
 )
   return (
     <div className="video-list">{VideoItems}</div>
