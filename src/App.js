@@ -18,7 +18,15 @@ class App extends Component{
     axios.get(url)
     .then( response => {
       const items = response.data.items;
-      const videos = items.filter(v => v.id.kind === 'youtube#video');
+      const videos = items
+      .filter(v => v.id.kind === 'youtube#video')
+      .map(v => {
+              return {
+                id: v.id.videoId,
+                title: v.snippet.title,
+                image: v.snippet.thumbnails.medium.url
+              }
+            })
       this.setState({ videos: videos});
     })
     .catch( error => console.log("ERROR!!", error));
