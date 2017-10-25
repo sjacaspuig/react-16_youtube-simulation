@@ -1,15 +1,27 @@
+//@flow
+
 import React, { Component } from 'react';
 
-class SearchForm extends Component {
+type Props = {
+  onSend: (string) => void,
+  inputMessage: string,
+  buttonTitle: string
+};
 
-  constructor (props) {
+type State = {
+  inputValue: string
+}
+
+class SearchForm extends Component<Props, State> {
+
+  constructor (props: Props) {
     super(props)
     this.state = {
       inputValue: ""
     };
   }
 
-  search(query) {
+  search(query: string) {
     this.props.onSend(query);
   }
 
