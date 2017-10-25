@@ -11,7 +11,8 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 type Props = void;
 
 type State = {
-  videos: Array<Video>
+  videos: Array<Video>,
+  loading: boolean
 };
 
 class App extends Component<Props, State> {
@@ -19,12 +20,15 @@ class App extends Component<Props, State> {
   constructor(props: Props) {
     super(props);
     this.state = {
-      videos: []
+      videos: [],
+      loading: false
     };
   };
 
   search(query: string) {
     const url: string= "https://www.googleapis.com/youtube/v3/search?maxResults=10&part=snippet&q=" + query + "t&key=AIzaSyDvuLhQ9lT4dC8pQeZxRHj6p5uKHZVjzno";
+
+    this.setState({loading: true});
 
     axios.get(url)
     .then( response => {
@@ -38,7 +42,7 @@ class App extends Component<Props, State> {
                 image: v.snippet.thumbnails.medium.url
               }
             })
-      this.setState({ videos: videos});
+      this.setState({ videos: videos, loading: false});
     })
     .catch( error => console.log("ERROR!!", error));
   };
@@ -56,7 +60,13 @@ class App extends Component<Props, State> {
             }}/>
             <Switch>
               <Route exact path="/" render={() => {
-                  return <VideoList videos={this.state.videos}/>
+
+                  if(this.state.loading) {
+                    return <div>Loading...</div>
+                  } else {
+                   return <VideoList videos={this.state.videos}/>
+                  }
+
                 }}/>
               <Route path="/detail/:id" component={VideoPlayer}/>
             </Switch>
